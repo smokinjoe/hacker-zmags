@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const NUM_ARTICLES = 3;
+const NUM_ARTICLES = 2;
 
 // export const actions = {};
 export const types = {};
@@ -135,5 +135,37 @@ const getAuthorDetail = (id) => {
 };
 
 /**
-*
+* App request state actions
 */
+
+types.IDLE = 'IDLE'; // this might stay unused ..
+types.COMPLETE = 'COMPLETE';
+types.FETCHING = 'FETCHING';
+types.ERROR = 'ERROR';
+
+// JOE: NOTE: do I want to add the timeout thing?
+// let timeout = null;
+
+const idle = () => {
+  return {
+    type: types.IDLE
+  };
+};
+
+const complete = () => {
+  return {
+    type: types.COMPLETE
+  };
+};
+
+const fetching = () => {
+  return {
+    type: types.COMPLETE
+  };
+};
+
+const err = () => {
+  return {
+    type: types.ERROR
+  };
+};
