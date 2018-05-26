@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import {
+  getArticles
+} from '../../actions';
 
 class Main extends Component {
+  constructor (props) {
+    super(props);
+
+    this.props.getArticles();
+  }
 
   renderRow () {
     const rows = [];
@@ -52,4 +63,14 @@ class Main extends Component {
   }
 }
 
-export default Main;
+const _stateToProps = (state) => {
+  return {};
+};
+
+const _dispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    getArticles
+  }, dispatch);
+};
+
+export default connect(_stateToProps, _dispatchToProps)(Main);
