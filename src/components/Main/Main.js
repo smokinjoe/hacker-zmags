@@ -7,13 +7,13 @@ class Main extends Component {
 
     for (let i = 0; i < 10; i++) {
       rows.push(
-        <div className="row">
+        <div className="row" key={ i }>
           <div className="col-1">
             <span className="story-score">420</span>
           </div>
           <div className="col-9">
             <h3>
-              <a className="story-link" href="#">
+              <a className="story-link" href={ '#' + i }>
                 Lorem ipsum dolor sit amet sit amet title.
               </a>
             </h3>
@@ -40,7 +40,7 @@ class Main extends Component {
   render () {
     return (
       <div className="container">
-        <div class="page-header mt-3 mb-4">
+        <div className="page-header mt-3 mb-4">
           <h1>Welcome to my Hacker News viewer <small>scroll on down!</small></h1>
         </div>
 
