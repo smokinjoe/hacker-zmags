@@ -27,6 +27,8 @@ class Main extends Component {
     // JOE: NOTE: I have url address to article and to comments
 
     articles.forEach((article, i) => {
+      const karma = authors[article.by].karma;
+
       rows.push(
         <div className="row" key={ i }>
           <div className="col-1">
@@ -41,7 +43,7 @@ class Main extends Component {
             <h5>
               <span className="story-author">
                 <small>
-                  <span className="story-author-score">(50) </span> { article.by }.
+                  <span className="story-author-score">({ karma }) </span> { article.by }.
                 </small>
               </span>
             </h5>
