@@ -2,14 +2,20 @@ import { combineReducers } from 'redux';
 import { types } from '../actions';
 
 const initialArticlesState = {
-  json: []
+  ids: [],
+  data: []
 };
 
 const articles = (state = initialArticlesState, action) => {
   switch (action.type) {
-    case types.GET_ARTICLES_JSON:
+    case types.GET_ARTICLE_IDS:
       return Object.assign({}, state, {
-        json: action.data
+        ids: action.data
+      });
+    case types.SET_ARTICLE_DETAIL:
+      state.data.push(action.data);
+      return Object.assign({}, state, {
+        data: state.data
       });
     default:
       return state;

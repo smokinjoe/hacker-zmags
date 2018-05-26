@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const NUM_ARTICLES = 10;
+const NUM_ARTICLES = 3;
 
 // export const actions = {};
 export const types = {};
@@ -9,7 +9,7 @@ export const types = {};
 * fetch article json from hacker news api
 */
 
-types.GET_ARTICLES_JSON = 'GET_ARTICLES_JSON';
+types.GET_ARTICLE_IDS = 'GET_ARTICLE_IDS';
 
 export const getArticles = () => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -22,7 +22,10 @@ export const getArticles = () => (dispatch) => {
       }
     })
     .then(items => {
-      dispatch(getRandomArticles(items.data));
+      const randomArticlesDispatch = getRandomArticles(items.data);
+      dispatch(randomArticlesDispatch);
+      getArticleDetail(randomArticlesDispatch.data, dispatch);
+
       resolve(items);
     })
     .catch(error => {
@@ -32,11 +35,15 @@ export const getArticles = () => (dispatch) => {
   });
 };
 
+/**
+* pick out ten random articles
+*/
+
 const getRandomArticles = (jsonArray) => {
-  const articles = new Array(NUM_ARTICLES);
-  const taken = new Array(len);
   let len = jsonArray.length;
   let n = NUM_ARTICLES;
+  const articles = new Array(NUM_ARTICLES);
+  const taken = new Array(len);
 
   if (n > len) {
     // throw new RangeError("getRandom: more elements taken than available");
@@ -50,7 +57,42 @@ const getRandomArticles = (jsonArray) => {
   }
 
   return {
-    type: types.GET_ARTICLES_JSON,
+    type: types.GET_ARTICLE_IDS,
     data: articles
   };
+};
+
+/**
+* fetch article details
+*/
+
+types.SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
+
+const getArticleDetail = (jsonArray, dispatch) => {
+
+  jsonArray.forEach(id => {
+    new Promise((resolve, reject) => {
+      axios({
+        method: 'GET',
+        url: 'https://hacker-news.firebaseio.com/v0/item/' + id + '.json',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'Content-Type: application/json'
+        }
+      }).
+      then(items => {
+        dispatch({
+          type: types.SET_ARTICLE_DETAIL,
+          data: items.data
+        });
+        resolve(items);
+      })
+      .catch(error => {
+        console.error('ERROR: ', error);
+        reject();
+      });
+
+    });
+
+  });
 };
