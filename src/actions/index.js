@@ -24,6 +24,7 @@ export const getArticles = () => (dispatch) => {
     .then(items => {
       const randomArticlesDispatch = getRandomArticles(items.data);
       dispatch(randomArticlesDispatch);
+      // JOE: NOTE: check out to see if passing dispatch as arg is an anti-pattern
       getArticleDetail(randomArticlesDispatch.data, dispatch);
 
       resolve(items);
