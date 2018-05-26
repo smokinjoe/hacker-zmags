@@ -93,6 +93,7 @@ const getArticleDetail = (jsonArray, dispatch) => {
             type: types.SET_AUTHOR_DETAIL,
             data: data
           });
+          dispatch(complete());
         });
 
         dispatch(complete());
@@ -128,7 +129,6 @@ const getAuthorDetail = (id, dispatch) => {
       }
     })
     .then(items => {
-      dispatch(complete());
       resolve(items.data);
     })
     .catch(error => {
