@@ -6,11 +6,17 @@ import {
   getArticles
 } from '../../actions';
 
+import { phrasify } from '../../utils/phrasify';
+
 class Main extends Component {
   constructor (props) {
     super(props);
 
     this.props.getArticles();
+
+    this.state = {
+      loadingMessage: phrasify()
+    };
   }
 
   renderRow () {
@@ -52,9 +58,10 @@ class Main extends Component {
 
   render () {
     const { articles, authors } = this.props;
+    const { loadingMessage } = this.state;
 
     if (articles.length < 3) {
-      return <h1>Loading...</h1>;
+      return <h1>{ loadingMessage }</h1>;
     }
 
     return (
