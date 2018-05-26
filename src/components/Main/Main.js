@@ -17,7 +17,7 @@ class Main extends Component {
     const { articles } = this.props;
     const rows = [];
 
-    // JOE: TODO: I have url address to article and to comments
+    // JOE: NOTE: I have url address to article and to comments
 
     articles.forEach((article, i) => {
       rows.push(
