@@ -14,7 +14,7 @@ class Main extends Component {
   }
 
   renderRow () {
-    const { articles } = this.props;
+    const { articles, authors } = this.props;
     const rows = [];
 
     // JOE: NOTE: I have url address to article and to comments
@@ -51,9 +51,7 @@ class Main extends Component {
   }
 
   render () {
-    const { articles } = this.props;
-
-    console.log('JOE: articles: ', articles);
+    const { articles, authors } = this.props;
 
     if (articles.length < 3) {
       return <h1>Loading...</h1>;
@@ -75,7 +73,8 @@ class Main extends Component {
 
 const _stateToProps = (state) => {
   return {
-    articles: state.articles.data
+    articles: state.articles.data,
+    authors: state.authors
   };
 };
 

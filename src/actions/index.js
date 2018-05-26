@@ -80,12 +80,20 @@ const getArticleDetail = (jsonArray, dispatch) => {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'Content-Type: application/json'
         }
-      }).
-      then(items => {
+      })
+      .then(items => {
         dispatch({
           type: types.SET_ARTICLE_DETAIL,
           data: items.data
         });
+
+        getAuthorDetail(items.data.by).then(data => {
+          dispatch({
+            type: types.SET_AUTHOR_DETAIL,
+            data: data
+          });
+        });
+
         resolve(items);
       })
       .catch(error => {
@@ -94,6 +102,34 @@ const getArticleDetail = (jsonArray, dispatch) => {
       });
 
     });
+
+  });
+};
+
+/**
+* Let's fetch some author details!
+*/
+
+types.SET_AUTHOR_DETAIL = 'SET_AUTHOR_DETAIL';
+
+const getAuthorDetail = (id) => {
+  return new Promise((resolve, reject) => {
+
+    axios({
+      method: 'GET',
+      url: 'https://hacker-news.firebaseio.com/v0/user/' + id + '.json',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'Content-Type: application/json'
+      }
+    })
+    .then(items => {
+      resolve(items.data);
+    })
+    .catch(error => {
+      console.error('ERROR: ', error);
+      reject();
+    })
 
   });
 };
