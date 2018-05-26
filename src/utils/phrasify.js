@@ -6,7 +6,18 @@ export const phrasify = () => {
     'writing',
     'testing',
     'debugging',
-    'awaiting'
+    'awaiting',
+    'rubber ducking',
+    'inheriting',
+    'rendering',
+    'iterating',
+    'generating',
+    'creating',
+    'assigning',
+    'exporting',
+    'randomizing',
+    'committing',
+    'merging'
   ];
 
   const nouns = [
@@ -18,7 +29,15 @@ export const phrasify = () => {
     'reducers',
     'actions',
     'promises',
-    'asyncs'
+    'asyncs',
+    'watchers',
+    'listeners',
+    'events',
+    'prototypes',
+    'objects',
+    'arrays',
+    'strings',
+    'classes'
   ];
 
   const verbIndex = Math.floor(Math.random() * verbs.length);
