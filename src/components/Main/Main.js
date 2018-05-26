@@ -14,9 +14,10 @@ class Main extends Component {
   }
 
   renderRow () {
+    const { articles } = this.props;
     const rows = [];
 
-    for (let i = 0; i < 10; i++) {
+    articles.forEach((article, i) => {
       rows.push(
         <div className="row" key={ i }>
           <div className="col-1">
@@ -41,14 +42,21 @@ class Main extends Component {
           </div>
 
         </div>
-
       );
-    }
+    });
 
     return rows;
   }
 
   render () {
+    const { articles } = this.props;
+
+    console.log('JOE: articles: ', articles);
+
+    if (articles.length < 3) {
+      return <h1>Loading...</h1>;
+    }
+
     return (
       <div className="container">
         <div className="page-header mt-3 mb-4">
@@ -64,7 +72,9 @@ class Main extends Component {
 }
 
 const _stateToProps = (state) => {
-  return {};
+  return {
+    articles: state.articles.data
+  };
 };
 
 const _dispatchToProps = (dispatch) => {
