@@ -17,16 +17,13 @@ class Main extends Component {
                 Lorem ipsum dolor sit amet sit amet title.
               </a>
             </h3>
-            <h4>
+            <h5>
               <span className="story-author">
                 <small>
-                  <span className="story-author-score">
-                    50
-                  </span>
-                  Ed Bast.
+                  <span className="story-author-score">(50) </span> Ed Bast.
                 </small>
               </span>
-            </h4>
+            </h5>
           </div>
           <div className="col-2">
             <span className="story-timestamp">7/17/2018</span>
