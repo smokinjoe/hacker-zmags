@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const NUM_ARTICLES = 10;
+
 // export const actions = {};
 export const types = {};
 
@@ -7,7 +9,7 @@ export const types = {};
 * fetch article json from hacker news api
 */
 
-types.GET_ARTICLES = 'GET_ARTICLES';
+types.GET_ARTICLES_JSON = 'GET_ARTICLES_JSON';
 
 export const getArticles = () => (dispatch) => {
   return new Promise((resolve, reject) => {
@@ -20,7 +22,7 @@ export const getArticles = () => (dispatch) => {
       }
     })
     .then(items => {
-      console.log(items);
+      dispatch(getRandomArticles(items.data));
       resolve(items);
     })
     .catch(error => {
@@ -28,4 +30,27 @@ export const getArticles = () => (dispatch) => {
       reject();
     });
   });
+};
+
+const getRandomArticles = (jsonArray) => {
+  const articles = new Array(NUM_ARTICLES);
+  const taken = new Array(len);
+  let len = jsonArray.length;
+  let n = NUM_ARTICLES;
+
+  if (n > len) {
+    // throw new RangeError("getRandom: more elements taken than available");
+    console.error('getRandomArticles: more elements taken than available');
+  }
+
+  while (n--) {
+    const x = Math.floor(Math.random() * len);
+    articles[n] = jsonArray[x in taken ? taken[x] : x];
+    taken[x] = --len in taken ? taken[len] : len;
+  }
+
+  return {
+    type: types.GET_ARTICLES_JSON,
+    data: articles
+  };
 };
