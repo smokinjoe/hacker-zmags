@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const actions = {};
+// export const actions = {};
 export const types = {};
 
 /**
@@ -9,9 +9,8 @@ export const types = {};
 
 types.GET_ARTICLES = 'GET_ARTICLES';
 
-actions.getArticles = () => (dispatch) => {
+export const getArticles = () => (dispatch) => {
   return new Promise((resolve, reject) => {
-
     axios({
       method: 'GET',
       url: 'https://hacker-news.firebaseio.com/v0/topstories.json',
@@ -22,16 +21,11 @@ actions.getArticles = () => (dispatch) => {
     })
     .then(items => {
       console.log(items);
-
       resolve(items);
     })
     .catch(error => {
       console.error('ERROR: ', error);
       reject();
     });
-
-
   });
-
-
-}
+};
