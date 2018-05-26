@@ -22,7 +22,7 @@ export const getArticles = () => (dispatch) => {
       }
     })
     .then(items => {
-      const randomArticlesDispatch = getRandomArticles(items.data);
+      const randomArticlesDispatch = getRandomArticleIds(items.data);
       dispatch(randomArticlesDispatch);
       // JOE: NOTE: check out to see if passing dispatch as arg is an anti-pattern
       getArticleDetail(randomArticlesDispatch.data, dispatch);
@@ -40,7 +40,7 @@ export const getArticles = () => (dispatch) => {
 * pick out ten random articles
 */
 
-const getRandomArticles = (jsonArray) => {
+const getRandomArticleIds = (jsonArray) => {
   let len = jsonArray.length;
   let n = NUM_ARTICLES;
   const articles = new Array(NUM_ARTICLES);
@@ -48,7 +48,7 @@ const getRandomArticles = (jsonArray) => {
 
   if (n > len) {
     // throw new RangeError("getRandom: more elements taken than available");
-    console.error('getRandomArticles: more elements taken than available');
+    console.error('getRandomArticleIds: more elements taken than available');
   }
 
   while (n--) {
