@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  getArticles
+  getArticles,
+  types
 } from '../../actions';
 
 import { phrasify } from '../../utils/phrasify';
@@ -57,10 +58,10 @@ class Main extends Component {
   }
 
   render () {
-    const { articles, authors } = this.props;
+    const { articles, authors, requestState } = this.props;
     const { loadingMessage } = this.state;
 
-    if (articles.length < 3) {
+    if (requestState !== types.IDLE) {
       return <h1>{ loadingMessage }</h1>;
     }
 
@@ -81,7 +82,8 @@ class Main extends Component {
 const _stateToProps = (state) => {
   return {
     articles: state.articles.data,
-    authors: state.authors
+    authors: state.authors,
+    requestState: state.requests.state
   };
 };
 
