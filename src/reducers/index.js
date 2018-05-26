@@ -13,9 +13,13 @@ const articles = (state = initialArticlesState, action) => {
         ids: action.data
       });
     case types.SET_ARTICLE_DETAIL:
-      state.data.push(action.data);
+      // state.data.push(action.data);
+
+      const data = state.data.slice();
+      data.push(action.data);
+
       return Object.assign({}, state, {
-        data: state.data
+        data: data
       });
     default:
       return state;

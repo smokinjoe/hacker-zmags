@@ -17,28 +17,30 @@ class Main extends Component {
     const { articles } = this.props;
     const rows = [];
 
+    // JOE: TODO: I have url address to article and to comments
+
     articles.forEach((article, i) => {
       rows.push(
         <div className="row" key={ i }>
           <div className="col-1">
-            <span className="story-score">420</span>
+            <span className="story-score">{ article.score }</span>
           </div>
           <div className="col-9">
             <h3>
-              <a className="story-link" href={ '#' + i }>
-                Lorem ipsum dolor sit amet sit amet title.
+              <a className="story-link" href={ article.url }>
+                { article.title }
               </a>
             </h3>
             <h5>
               <span className="story-author">
                 <small>
-                  <span className="story-author-score">(50) </span> Ed Bast.
+                  <span className="story-author-score">(50) </span> { article.by }.
                 </small>
               </span>
             </h5>
           </div>
           <div className="col-2">
-            <span className="story-timestamp">7/17/2018</span>
+            <span className="story-timestamp">{ article.time }</span>
           </div>
 
         </div>
