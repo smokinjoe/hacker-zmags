@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
 import { types } from '../actions';
 
+/**
+* Article reducers
+*/
+
 const initialArticlesState = {
   ids: [],
   data: []
@@ -23,8 +27,25 @@ const articles = (state = initialArticlesState, action) => {
   }
 };
 
+/**
+* Author reducers
+*/
+
+const initialAuthorsState = {};
+const authors = (state = initialAuthorsState, action) => {
+  switch (action.type) {
+    case types.SET_AUTHOR_DETAIL:
+      const authors = Object.assign({}, state.authors);
+      authors[action.data.id] = action.data;
+      return Object.assign({}, state, authors);
+    default:
+      return state;
+  }
+};
+
 const reducers = {
-  articles
+  articles,
+  authors
 };
 
 const rootReducer = combineReducers(reducers);
