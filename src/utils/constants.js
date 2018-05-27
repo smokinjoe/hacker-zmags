@@ -1,9 +1,5 @@
 const CONSTANTS = {};
 
-<<<<<<< HEAD
 CONSTANTS.NUM_ARTICLES = 5;
-=======
-CONSTANTS.NUM_ARTICLES = 3;
->>>>>>> de2b0882e1d77ae97289a27d3006753392850544
 
 export default CONSTANTS;
