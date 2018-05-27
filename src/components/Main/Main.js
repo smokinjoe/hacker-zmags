@@ -9,6 +9,8 @@ import {
 
 import { phrasify } from '../../utils/phrasify';
 
+import './Main.css';
+
 class Main extends Component {
   constructor (props) {
     super(props);
@@ -64,13 +66,12 @@ class Main extends Component {
     const { loadingMessage } = this.state;
 
     if (requestState !== types.IDLE) {
-      return <h1>{ loadingMessage }</h1>;
+      return (
+        <div className="absolute-middle">
+          <h1>{ loadingMessage }...</h1>
+        </div>
+      );
     }
-
-    console.log('JOE: requestState:', requestState);
-    console.log('JOE: articles:', articles);
-    console.log('JOE: authors:', authors);
-    console.log('===================');
 
     return (
       <div className="container">
