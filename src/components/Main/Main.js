@@ -36,9 +36,9 @@ class Main extends Component {
       const karma = authors[article.by].karma;
 
       rows.push(
-        <div className="row" key={ i }>
-          <div className="col-1">
-            <span className="story-score">{ article.score }</span>
+        <div className="row mb-4" key={ i }>
+          <div className="col-1 mt-1">
+            <h4 className="story-score">{ article.score }</h4>
           </div>
           <div className="col-9">
             <h3>
