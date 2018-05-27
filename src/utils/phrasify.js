@@ -1,24 +1,43 @@
 export const phrasify = () => {
   const verbs = [
-    'curling',
-    'priming',
-    'picking',
-    'watching',
-    'tickling',
-    'spinning',
-    'chasing',
-    'laughing at',
-    'scrubbing'
+    'reticulating',
+    'compiling',
+    'coding',
+    'writing',
+    'testing',
+    'debugging',
+    'awaiting',
+    'rubber ducking',
+    'inheriting',
+    'rendering',
+    'iterating',
+    'generating',
+    'creating',
+    'assigning',
+    'exporting',
+    'randomizing',
+    'committing',
+    'merging'
   ];
 
   const nouns = [
-    'squirrels',
-    'flowers',
-    'cats',
-    'tires',
-    'fries',
-    'boogie men',
-    'dogs'
+    'splines',
+    'modules',
+    'components',
+    'specs',
+    'mocks',
+    'reducers',
+    'actions',
+    'promises',
+    'asyncs',
+    'watchers',
+    'listeners',
+    'events',
+    'prototypes',
+    'objects',
+    'arrays',
+    'strings',
+    'classes'
   ];
 
   const verbIndex = Math.floor(Math.random() * verbs.length);

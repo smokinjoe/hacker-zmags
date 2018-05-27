@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const NUM_ARTICLES = 3;
+import CONSTANTS from '../utils/constants';
 
 // export const actions = {};
 export const types = {};
@@ -12,6 +11,7 @@ export const types = {};
 types.GET_ARTICLE_IDS = 'GET_ARTICLE_IDS';
 
 export const getArticles = () => (dispatch) => {
+  dispatch(fetching());
   return new Promise((resolve, reject) => {
     axios({
       method: 'GET',
@@ -24,6 +24,7 @@ export const getArticles = () => (dispatch) => {
     .then(items => {
       const randomArticlesDispatch = getRandomArticleIds(items.data);
       dispatch(randomArticlesDispatch);
+      dispatch(complete());
       // JOE: NOTE: check out to see if passing dispatch as arg is an anti-pattern
       getArticleDetail(randomArticlesDispatch.data, dispatch);
 
@@ -42,8 +43,8 @@ export const getArticles = () => (dispatch) => {
 
 const getRandomArticleIds = (jsonArray) => {
   let len = jsonArray.length;
-  let n = NUM_ARTICLES;
-  const articles = new Array(NUM_ARTICLES);
+  let n = CONSTANTS.NUM_ARTICLES;
+  const articles = new Array(CONSTANTS.NUM_ARTICLES);
   const taken = new Array(len);
 
   if (n > len) {
@@ -70,8 +71,8 @@ const getRandomArticleIds = (jsonArray) => {
 types.SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
 
 const getArticleDetail = (jsonArray, dispatch) => {
-
   jsonArray.forEach(id => {
+    dispatch(fetching());
     new Promise((resolve, reject) => {
       axios({
         method: 'GET',
@@ -87,12 +88,15 @@ const getArticleDetail = (jsonArray, dispatch) => {
           data: items.data
         });
 
-        getAuthorDetail(items.data.by).then(data => {
+        getAuthorDetail(items.data.by, dispatch).then(data => {
           dispatch({
             type: types.SET_AUTHOR_DETAIL,
             data: data
           });
+          dispatch(complete());
         });
+
+        dispatch(complete());
 
         resolve(items);
       })
@@ -112,7 +116,8 @@ const getArticleDetail = (jsonArray, dispatch) => {
 
 types.SET_AUTHOR_DETAIL = 'SET_AUTHOR_DETAIL';
 
-const getAuthorDetail = (id) => {
+const getAuthorDetail = (id, dispatch) => {
+  dispatch(fetching());
   return new Promise((resolve, reject) => {
 
     axios({
@@ -132,4 +137,40 @@ const getAuthorDetail = (id) => {
     })
 
   });
+};
+
+/**
+* App request state actions
+*/
+
+types.IDLE = 'IDLE'; // this might stay unused ..
+types.COMPLETE = 'COMPLETE';
+types.FETCHING = 'FETCHING';
+types.ERROR = 'ERROR';
+
+// JOE: NOTE: do I want to add the timeout thing?
+// let timeout = null;
+
+const idle = () => {
+  return {
+    type: types.IDLE
+  };
+};
+
+const complete = () => {
+  return {
+    type: types.COMPLETE
+  };
+};
+
+const fetching = () => {
+  return {
+    type: types.FETCHING
+  };
+};
+
+const err = () => {
+  return {
+    type: types.ERROR
+  };
 };

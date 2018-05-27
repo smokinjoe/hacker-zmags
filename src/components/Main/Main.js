@@ -3,14 +3,21 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  getArticles
+  getArticles,
+  types
 } from '../../actions';
+
+import { phrasify } from '../../utils/phrasify';
 
 class Main extends Component {
   constructor (props) {
     super(props);
 
     this.props.getArticles();
+
+    this.state = {
+      loadingMessage: phrasify()
+    };
   }
 
   renderRow () {
@@ -20,6 +27,8 @@ class Main extends Component {
     // JOE: NOTE: I have url address to article and to comments
 
     articles.forEach((article, i) => {
+      const karma = authors[article.by].karma;
+
       rows.push(
         <div className="row" key={ i }>
           <div className="col-1">
@@ -34,7 +43,7 @@ class Main extends Component {
             <h5>
               <span className="story-author">
                 <small>
-                  <span className="story-author-score">(50) </span> { article.by }.
+                  <span className="story-author-score">({ karma }) </span> { article.by }.
                 </small>
               </span>
             </h5>
@@ -51,10 +60,11 @@ class Main extends Component {
   }
 
   render () {
-    const { articles, authors } = this.props;
+    const { articles, authors, requestState } = this.props;
+    const { loadingMessage } = this.state;
 
-    if (articles.length < 3) {
-      return <h1>Loading...</h1>;
+    if (requestState !== types.IDLE) {
+      return <h1>{ loadingMessage }</h1>;
     }
 
     return (
@@ -74,7 +84,8 @@ class Main extends Component {
 const _stateToProps = (state) => {
   return {
     articles: state.articles.data,
-    authors: state.authors
+    authors: state.authors,
+    requestState: state.requests.state
   };
 };
 
