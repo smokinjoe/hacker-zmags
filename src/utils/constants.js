@@ -1,0 +1,5 @@
+const CONSTANTS = {};
+
+CONSTANTS.NUM_ARTICLES = 5;
+
+export default CONSTANTS;
