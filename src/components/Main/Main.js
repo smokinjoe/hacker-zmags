@@ -22,6 +22,10 @@ class Main extends Component {
     };
   }
 
+  gussyUpThatDate (date) {
+    return new Date(date * 1000).toLocaleDateString();
+  }
+
   renderRows () {
     const { articles, authors } = this.props;
     const rows = [];
@@ -45,13 +49,13 @@ class Main extends Component {
             <h5>
               <span className="story-author">
                 <small>
-                  <span className="story-author-score">({ karma }) </span> { article.by }.
+                  <span className="story-author-score">({ karma }) </span> { article.by }
                 </small>
               </span>
             </h5>
           </div>
           <div className="col-2">
-            <span className="story-timestamp">{ article.time }</span>
+            <span className="story-timestamp">{ this.gussyUpThatDate(article.time) }</span>
           </div>
 
         </div>
@@ -82,7 +86,6 @@ class Main extends Component {
         { this.renderRows() }
 
       </div>
-
     );
   }
 }
