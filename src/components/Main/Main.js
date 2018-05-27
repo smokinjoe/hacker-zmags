@@ -43,7 +43,7 @@ class Main extends Component {
             <h5>
               <span className="story-author">
                 <small>
-                  { article.by } <span className="story-author-score">({ karma })</span>
+                  <span className="story-author-score">({ karma }) </span> { article.by }.
                 </small>
               </span>
             </h5>
