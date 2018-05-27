@@ -88,7 +88,8 @@ const getArticleDetail = (jsonArray, dispatch) => {
           data: items.data
         });
 
-        getAuthorDetail(items.data.by, dispatch).then(data => {
+        dispatch(fetching());
+        getAuthorDetail(items.data.by).then(data => {
           dispatch({
             type: types.SET_AUTHOR_DETAIL,
             data: data
@@ -116,8 +117,7 @@ const getArticleDetail = (jsonArray, dispatch) => {
 
 types.SET_AUTHOR_DETAIL = 'SET_AUTHOR_DETAIL';
 
-const getAuthorDetail = (id, dispatch) => {
-  dispatch(fetching());
+const getAuthorDetail = (id) => {
   return new Promise((resolve, reject) => {
 
     axios({
