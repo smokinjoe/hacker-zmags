@@ -25,6 +25,7 @@ export const getArticles = () => (dispatch) => {
       const randomArticlesDispatch = getRandomArticleIds(items.data);
       dispatch(randomArticlesDispatch);
       dispatch(complete());
+
       // JOE: NOTE: check out to see if passing dispatch as arg is an anti-pattern
       getArticleDetail(randomArticlesDispatch.data, dispatch);
 
@@ -70,6 +71,7 @@ const getRandomArticleIds = (jsonArray) => {
 
 types.SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
 
+// JOE: NOTE: I really do not like passing dispatch in this manner
 const getArticleDetail = (jsonArray, dispatch) => {
   jsonArray.forEach(id => {
     dispatch(fetching());
