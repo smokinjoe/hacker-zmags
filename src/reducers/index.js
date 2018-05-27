@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { types } from '../actions';
+import CONSTANTS from '../utils/constants';
 
 /**
 * Article reducers
@@ -19,6 +20,13 @@ const articles = (state = initialArticlesState, action) => {
     case types.SET_ARTICLE_DETAIL:
       const data = state.data.slice();
       data.push(action.data);
+
+      if (data.length === CONSTANTS.NUM_ARTICLES) {
+        data.sort((a, b) => {
+          return b.score - a.score;
+        });
+      }
+
       return Object.assign({}, state, {
         data: data
       });
@@ -54,12 +62,10 @@ const initialAppReqState = {
 };
 
 const requests = (state = initialAppReqState, action) => {
-  // console.log('JOE: state.length: ', state.length);
-  // console.log('JOE: state.state: ', state.state);
-  // console.log('JOE: action.type: ', action.type);
   switch (action.type) {
     case types.IDLE:
       let idleAssignState = Object.assign({}, state);
+
       if (action.state.length === 0) {
         idleAssignState.type = types.IDLE;
       }
@@ -67,6 +73,7 @@ const requests = (state = initialAppReqState, action) => {
 
     case types.FETCHING:
       let fetchingAssignState = Object.assign({}, state);
+
       fetchingAssignState.length += 1;
       fetchingAssignState.state = types.FETCHING;
       return Object.assign({}, fetchingAssignState);
@@ -78,10 +85,10 @@ const requests = (state = initialAppReqState, action) => {
 
       if (completeAssignState.length === 0) {
         completeAssignState.state = types.IDLE;
-        // console.log('JOE: setting idle!');
       }
       else {
-        completeAssignState.state = types.COMPLETE;
+        // Still in fetching state
+        completeAssignState.state = types.FETCHING;
       }
       return Object.assign({}, completeAssignState);
 
