@@ -23,7 +23,8 @@ class Main extends Component {
   }
 
   gussyUpThatDate (date) {
-    return new Date(date * 1000).toLocaleDateString();
+    return new Date(date * 1000).toLocaleTimeString() + ' '
+        + new Date(date * 1000).toLocaleDateString();
   }
 
   renderRows () {
@@ -55,7 +56,9 @@ class Main extends Component {
             </h5>
           </div>
           <div className="col-2">
-            <span className="story-timestamp">{ this.gussyUpThatDate(article.time) }</span>
+            <span className="story-timestamp">
+              <small>{ this.gussyUpThatDate(article.time) }</small>
+            </span>
           </div>
 
         </div>
