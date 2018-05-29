@@ -9,8 +9,12 @@ export const types = {};
 */
 
 types.GET_ARTICLE_IDS = 'GET_ARTICLE_IDS';
+types.CLEAR_ARTICLES = 'CLEAR_ARTICLES';
 
 export const getArticles = () => (dispatch) => {
+  dispatch({
+    type: types.CLEAR_ARTICLES
+  });
   dispatch(fetching());
   return new Promise((resolve, reject) => {
     axios({
@@ -153,12 +157,6 @@ types.ERROR = 'ERROR';
 // JOE: NOTE: do I want to add the timeout thing?
 // let timeout = null;
 
-const idle = () => {
-  return {
-    type: types.IDLE
-  };
-};
-
 const complete = () => {
   return {
     type: types.COMPLETE
@@ -168,11 +166,5 @@ const complete = () => {
 const fetching = () => {
   return {
     type: types.FETCHING
-  };
-};
-
-const err = () => {
-  return {
-    type: types.ERROR
   };
 };
