@@ -38,6 +38,7 @@ export const getArticles = () => (dispatch) => {
     .catch(error => {
       console.error('ERROR: ', error);
       reject();
+      dispatch(error());
     });
   });
 };
@@ -101,6 +102,9 @@ const getArticleDetail = (jsonArray, dispatch) => {
             data: data
           });
           dispatch(complete());
+        })
+        .catch(error => {
+          dispatch(error());
         });
 
         dispatch(complete());
@@ -108,6 +112,7 @@ const getArticleDetail = (jsonArray, dispatch) => {
         resolve(items);
       })
       .catch(error => {
+        dispatch(error());
         console.error('ERROR: ', error);
         reject();
       });
@@ -166,5 +171,11 @@ const complete = () => {
 const fetching = () => {
   return {
     type: types.FETCHING
+  };
+};
+
+const error = () => {
+  return {
+    type: types.ERROR
   };
 };
