@@ -10,7 +10,7 @@ A series of Redux actions were created to retrieve an array of top articles. And
 
 `getArticles` - Fetches array of ids that represent the top articles on Hacker News. The array was reduced to ten random article ids that were each then passed to,
 
-`getArticleDetail` - As each set of details comes back as a response, the data is saved into my Redux store as well as passed to,
+`getArticleDetail` - As each set of details comes back as a response, the data is saved into the Redux store as well as passed to,
 
 `getAuthorDetail` - Here, one final API endpoint is sent a request. The response is then saved to the Redux store.
 
