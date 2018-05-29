@@ -7,6 +7,8 @@ import {
   types
 } from '../../actions';
 
+import CONSTANTS from '../../utils/constants';
+
 import { phrasify } from '../../utils/phrasify';
 
 import './Main.css';
@@ -22,6 +24,13 @@ class Main extends Component {
     };
   }
 
+  refresh () {
+    this.props.getArticles();
+    this.setState({
+      loadingMessage: phrasify()
+    });
+  }
+
   gussyUpThatDate (date) {
     return new Date(date * 1000).toLocaleTimeString() + ' '
         + new Date(date * 1000).toLocaleDateString();
@@ -31,19 +40,19 @@ class Main extends Component {
     const { articles, authors } = this.props;
     const rows = [];
 
-    // JOE: NOTE: I have url address to article and to comments
-
     articles.forEach((article, i) => {
       const karma = authors[article.by].karma;
+      const url = typeof article.url !== 'undefined' ? article.url
+          : CONSTANTS.ARTICLE_BASE_URL + '?id=' + article.id;
 
       rows.push(
-        <div className="row mb-4" key={ i }>
+        <div className="row mb-4" key={ article.id }>
           <div className="col-1 mt-1">
             <h4 className="story-score">{ article.score }</h4>
           </div>
           <div className="col-9">
             <h3>
-              <a className="story-link" href={ article.url }>
+              <a className="story-link" href={ url }>
                 { article.title }
               </a>
             </h3>
@@ -69,7 +78,7 @@ class Main extends Component {
   }
 
   render () {
-    const { articles, authors, requestState } = this.props;
+    const { requestState } = this.props;
     const { loadingMessage } = this.state;
 
     if (requestState !== types.IDLE) {
@@ -88,6 +97,13 @@ class Main extends Component {
 
         { this.renderRows() }
 
+        <div className="row">
+          <button
+              onClick={ this.refresh.bind(this) }
+              className="btn btn-link btn-block mb-5">
+            Refresh
+          </button>
+        </div>
       </div>
     );
   }
