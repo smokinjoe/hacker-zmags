@@ -1,3 +1,6 @@
+/* eslint-disable no-unreachable */
+// Above is needed to kill warnings about all these reducer blocks
+
 import { combineReducers } from 'redux';
 import { types } from '../actions';
 import CONSTANTS from '../utils/constants';
@@ -13,10 +16,19 @@ const initialArticlesState = {
 
 const articles = (state = initialArticlesState, action) => {
   switch (action.type) {
+    case types.CLEAR_ARTICLES:
+      return Object.assign({}, state, {
+        ids: [],
+        data: []
+      });
+      break;
+
     case types.GET_ARTICLE_IDS:
       return Object.assign({}, state, {
         ids: action.data
       });
+      break;
+
     case types.SET_ARTICLE_DETAIL:
       const data = state.data.slice();
       data.push(action.data);
@@ -30,6 +42,8 @@ const articles = (state = initialArticlesState, action) => {
       return Object.assign({}, state, {
         data: data
       });
+      break;
+
     default:
       return state;
   }
@@ -47,6 +61,8 @@ const authors = (state = initialAuthorsState, action) => {
       const authors = Object.assign({}, state.authors);
       authors[action.data.id] = action.data;
       return Object.assign({}, state, authors);
+      break;
+
     default:
       return state;
   }
@@ -70,6 +86,7 @@ const requests = (state = initialAppReqState, action) => {
         idleAssignState.type = types.IDLE;
       }
       return Object.assign({}, idleAssignState);
+      break;
 
     case types.FETCHING:
       let fetchingAssignState = Object.assign({}, state);
@@ -77,6 +94,7 @@ const requests = (state = initialAppReqState, action) => {
       fetchingAssignState.length += 1;
       fetchingAssignState.state = types.FETCHING;
       return Object.assign({}, fetchingAssignState);
+      break;
 
     case types.COMPLETE:
       let completeAssignState = Object.assign({}, state);
@@ -91,11 +109,13 @@ const requests = (state = initialAppReqState, action) => {
         completeAssignState.state = types.FETCHING;
       }
       return Object.assign({}, completeAssignState);
+      break;
 
     case types.ERROR:
       return Object.assign({}, state, {
         state: types.ERROR
       });
+      break;
 
     default:
       return state;

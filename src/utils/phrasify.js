@@ -7,7 +7,6 @@ export const phrasify = () => {
     'testing',
     'debugging',
     'awaiting',
-    'rubber ducking',
     'inheriting',
     'rendering',
     'iterating',
