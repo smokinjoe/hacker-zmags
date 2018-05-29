@@ -22,9 +22,15 @@ As each requests returns and `complete` is called, the counter is decremented.
 
 Once that counter hits zero, the application enters a request `IDLE` state.
 
+### In the case of errors
+
+Errors happen. Sometimes the connection cuts out or the request simply times out (a defined 30 second wait time). If such issues arise, the `err` action is dispatched and Redux handles modifying `requests.length` so that any requests are ultimately balanced out.
+
 ### Display the data
 
 Once the app has completed all the requests, the `request.state` becomes `IDLE` and the returned data is rendered on the screen for the viewer!
+
+In the case of incomplete data (due to errors), a quick check is performed. If the required data for display is incomplete, the entire row is ignored.
 
 ### Extas
 
