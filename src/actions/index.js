@@ -16,6 +16,7 @@ export const getArticles = () => (dispatch) => {
     type: types.CLEAR_ARTICLES
   });
   dispatch(fetching());
+
   return new Promise((resolve, reject) => {
     axios({
       method: 'GET',
@@ -23,7 +24,8 @@ export const getArticles = () => (dispatch) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'Content-Type: application/json'
-      }
+      },
+      timeout: CONSTANTS.TIMEOUT
     })
     .then(items => {
       const randomArticlesDispatch = getRandomArticleIds(items.data);
@@ -36,11 +38,12 @@ export const getArticles = () => (dispatch) => {
       resolve(items);
     })
     .catch(error => {
-      console.error('ERROR: ', error);
+      console.error('ERROR: Top stories could not be requested. ', error);
       reject();
-      dispatch(error());
+      dispatch(err());
     });
   });
+
 };
 
 /**
@@ -87,7 +90,8 @@ const getArticleDetail = (jsonArray, dispatch) => {
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'Content-Type: application/json'
-        }
+        },
+        timeout: CONSTANTS.TIMEOUT
       })
       .then(items => {
         dispatch({
@@ -104,7 +108,8 @@ const getArticleDetail = (jsonArray, dispatch) => {
           dispatch(complete());
         })
         .catch(error => {
-          dispatch(error());
+          console.error('ERROR: There was an error fetching author details.', error);
+          dispatch(err());
         });
 
         dispatch(complete());
@@ -112,8 +117,8 @@ const getArticleDetail = (jsonArray, dispatch) => {
         resolve(items);
       })
       .catch(error => {
-        dispatch(error());
-        console.error('ERROR: ', error);
+        dispatch(err());
+        console.error('ERROR: There was an error fetching article details.', error);
         reject();
       });
 
@@ -137,7 +142,8 @@ const getAuthorDetail = (id) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'Content-Type: application/json'
-      }
+      },
+      timeout: CONSTANTS.TIMEOUT
     })
     .then(items => {
       resolve(items.data);
@@ -174,7 +180,7 @@ const fetching = () => {
   };
 };
 
-const error = () => {
+const err = () => {
   return {
     type: types.ERROR
   };

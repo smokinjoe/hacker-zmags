@@ -94,6 +94,7 @@ const requests = (state = initialAppReqState, action) => {
 
       fetchingAssignState.length += 1;
       fetchingAssignState.state = types.FETCHING;
+
       return Object.assign({}, fetchingAssignState);
       break;
 
@@ -108,6 +109,7 @@ const requests = (state = initialAppReqState, action) => {
         // Still in fetching state
         completeAssignState.state = types.FETCHING;
       }
+
       return Object.assign({}, completeAssignState);
       break;
 
@@ -122,6 +124,7 @@ const requests = (state = initialAppReqState, action) => {
         // Still in fetching state
         errorAssignState.state = types.FETCHING;
       }
+
       return Object.assign({}, errorAssignState);
       break;
 
