@@ -20,7 +20,7 @@ export const getArticles = () => (dispatch) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'GET',
-      url: 'https://hacker-news.firebaseio.com/v0/topstories.json',
+      url: CONSTANTS.HN_API_URL + 'topstories.json',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'Content-Type: application/json'
@@ -86,7 +86,7 @@ const getArticleDetail = (jsonArray, dispatch) => {
     new Promise((resolve, reject) => {
       axios({
         method: 'GET',
-        url: 'https://hacker-news.firebaseio.com/v0/item/' + id + '.json',
+        url: CONSTANTS.HN_API_URL + 'item/' + id + '.json',
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'Content-Type: application/json'
@@ -138,7 +138,7 @@ const getAuthorDetail = (id) => {
 
     axios({
       method: 'GET',
-      url: 'https://hacker-news.firebaseio.com/v0/user/' + id + '.json',
+      url: CONSTANTS.HN_API_URL + 'user/' + id + '.json',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'Content-Type: application/json'
