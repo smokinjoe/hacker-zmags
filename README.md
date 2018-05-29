@@ -28,7 +28,7 @@ Errors happen. Sometimes the connection cuts out or the request simply times out
 
 ### Display the data
 
-Once the app has completed all the requests, the `request.state` becomes `IDLE` and the returned data is rendered on the screen for the viewer!
+Once the app has completed all the requests, the `request.state` becomes `IDLE` and the returned data is rendered on the screen for the viewer! In the occasional case where there is no `url` property on the `article`, a url is generated that points to the post's comment section (ex: **Ask HN** posts).
 
 In the case of incomplete data (due to errors), a quick check is performed. If the required data for display is incomplete, the entire row is ignored.
 
