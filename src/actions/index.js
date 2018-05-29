@@ -32,7 +32,9 @@ export const getArticles = () => (dispatch) => {
       dispatch(randomArticlesDispatch);
       dispatch(complete());
 
-      // JOE: NOTE: check out to see if passing dispatch as arg is an anti-pattern
+      // JOE: NOTE: TODO: check out to see if passing dispatch as arg is an anti-pattern
+      // UPDATE: For now I'm letting it slide given that everything works well, but
+      // is something I need to address for the future.
       getArticleDetail(randomArticlesDispatch.data, dispatch);
 
       resolve(items);
@@ -79,7 +81,6 @@ const getRandomArticleIds = (jsonArray) => {
 
 types.SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
 
-// JOE: NOTE: I really do not like passing dispatch in this manner
 const getArticleDetail = (jsonArray, dispatch) => {
   jsonArray.forEach(id => {
     dispatch(fetching());
@@ -164,9 +165,6 @@ types.IDLE = 'IDLE'; // this might stay unused ..
 types.COMPLETE = 'COMPLETE';
 types.FETCHING = 'FETCHING';
 types.ERROR = 'ERROR';
-
-// JOE: NOTE: do I want to add the timeout thing?
-// let timeout = null;
 
 const complete = () => {
   return {
