@@ -41,6 +41,10 @@ class Main extends Component {
     const rows = [];
 
     articles.forEach((article, i) => {
+      if (typeof article === 'undefined' || typeof authors[article.by] === 'undefined') {
+        return null;
+      }
+
       const karma = authors[article.by].karma;
       const url = typeof article.url !== 'undefined' ? article.url
           : CONSTANTS.ARTICLE_BASE_URL + '?id=' + article.id;

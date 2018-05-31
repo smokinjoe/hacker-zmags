@@ -10,7 +10,7 @@ A series of Redux actions were created to retrieve an array of top articles. And
 
 `getArticles` - Fetches array of ids that represent the top articles on Hacker News. The array was reduced to ten random article ids that were each then passed to,
 
-`getArticleDetail` - As each set of details comes back as a response, the data is saved into my Redux store as well as passed to,
+`getArticleDetail` - As each set of details comes back as a response, the data is saved into the Redux store as well as passed to,
 
 `getAuthorDetail` - Here, one final API endpoint is sent a request. The response is then saved to the Redux store.
 
@@ -22,9 +22,15 @@ As each requests returns and `complete` is called, the counter is decremented.
 
 Once that counter hits zero, the application enters a request `IDLE` state.
 
+### In the case of errors
+
+Errors happen. Sometimes the connection cuts out or the request simply times out (a defined 30 second wait time). If such issues arise, the `err` action is dispatched and Redux handles modifying `requests.length` so that any requests are ultimately balanced out.
+
 ### Display the data
 
-Once the app has completed all the requests, the `request.state` becomes `IDLE` and the returned data is rendered on the screen for the viewer!
+Once the app has completed all the requests, the `request.state` becomes `IDLE` and the returned data is rendered on the screen for the viewer! In the occasional case where there is no `url` property on the `article`, a url is generated that points to the post's comment section (ex: **Ask HN** posts).
+
+In the case of incomplete data (due to errors), a quick check is performed. If the required data for display is incomplete, the entire row is ignored.
 
 ### Extas
 

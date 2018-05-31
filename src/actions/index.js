@@ -16,30 +16,36 @@ export const getArticles = () => (dispatch) => {
     type: types.CLEAR_ARTICLES
   });
   dispatch(fetching());
+
   return new Promise((resolve, reject) => {
     axios({
       method: 'GET',
-      url: 'https://hacker-news.firebaseio.com/v0/topstories.json',
+      url: CONSTANTS.HN_API_URL + 'topstories.json',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'Content-Type: application/json'
-      }
+      },
+      timeout: CONSTANTS.TIMEOUT
     })
     .then(items => {
       const randomArticlesDispatch = getRandomArticleIds(items.data);
       dispatch(randomArticlesDispatch);
       dispatch(complete());
 
-      // JOE: NOTE: check out to see if passing dispatch as arg is an anti-pattern
+      // JOE: NOTE: TODO: check out to see if passing dispatch as arg is an anti-pattern
+      // UPDATE: For now I'm letting it slide given that everything works well, but
+      // is something I need to address for the future.
       getArticleDetail(randomArticlesDispatch.data, dispatch);
 
       resolve(items);
     })
     .catch(error => {
-      console.error('ERROR: ', error);
+      console.error('ERROR: Top stories could not be requested. ', error);
       reject();
+      dispatch(err());
     });
   });
+
 };
 
 /**
@@ -75,18 +81,18 @@ const getRandomArticleIds = (jsonArray) => {
 
 types.SET_ARTICLE_DETAIL = 'SET_ARTICLE_DETAIL';
 
-// JOE: NOTE: I really do not like passing dispatch in this manner
 const getArticleDetail = (jsonArray, dispatch) => {
   jsonArray.forEach(id => {
     dispatch(fetching());
     new Promise((resolve, reject) => {
       axios({
         method: 'GET',
-        url: 'https://hacker-news.firebaseio.com/v0/item/' + id + '.json',
+        url: CONSTANTS.HN_API_URL + 'item/' + id + '.json',
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'Content-Type: application/json'
-        }
+        },
+        timeout: CONSTANTS.TIMEOUT
       })
       .then(items => {
         dispatch({
@@ -101,6 +107,10 @@ const getArticleDetail = (jsonArray, dispatch) => {
             data: data
           });
           dispatch(complete());
+        })
+        .catch(error => {
+          console.error('ERROR: There was an error fetching author details.', error);
+          dispatch(err());
         });
 
         dispatch(complete());
@@ -108,7 +118,8 @@ const getArticleDetail = (jsonArray, dispatch) => {
         resolve(items);
       })
       .catch(error => {
-        console.error('ERROR: ', error);
+        dispatch(err());
+        console.error('ERROR: There was an error fetching article details.', error);
         reject();
       });
 
@@ -128,11 +139,12 @@ const getAuthorDetail = (id) => {
 
     axios({
       method: 'GET',
-      url: 'https://hacker-news.firebaseio.com/v0/user/' + id + '.json',
+      url: CONSTANTS.HN_API_URL + 'user/' + id + '.json',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'Content-Type: application/json'
-      }
+      },
+      timeout: CONSTANTS.TIMEOUT
     })
     .then(items => {
       resolve(items.data);
@@ -154,9 +166,6 @@ types.COMPLETE = 'COMPLETE';
 types.FETCHING = 'FETCHING';
 types.ERROR = 'ERROR';
 
-// JOE: NOTE: do I want to add the timeout thing?
-// let timeout = null;
-
 const complete = () => {
   return {
     type: types.COMPLETE
@@ -166,5 +175,11 @@ const complete = () => {
 const fetching = () => {
   return {
     type: types.FETCHING
+  };
+};
+
+const err = () => {
+  return {
+    type: types.ERROR
   };
 };

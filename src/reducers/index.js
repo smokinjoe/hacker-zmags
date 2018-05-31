@@ -74,7 +74,8 @@ const authors = (state = initialAuthorsState, action) => {
 
 const initialAppReqState = {
   length: 0,
-  state: types.IDLE
+  state: types.IDLE,
+  message: ''
 };
 
 const requests = (state = initialAppReqState, action) => {
@@ -93,12 +94,12 @@ const requests = (state = initialAppReqState, action) => {
 
       fetchingAssignState.length += 1;
       fetchingAssignState.state = types.FETCHING;
+
       return Object.assign({}, fetchingAssignState);
       break;
 
     case types.COMPLETE:
       let completeAssignState = Object.assign({}, state);
-      // JOE: NOTE: need some sort of error testing
       completeAssignState.length -= 1;
 
       if (completeAssignState.length === 0) {
@@ -108,13 +109,23 @@ const requests = (state = initialAppReqState, action) => {
         // Still in fetching state
         completeAssignState.state = types.FETCHING;
       }
+
       return Object.assign({}, completeAssignState);
       break;
 
     case types.ERROR:
-      return Object.assign({}, state, {
-        state: types.ERROR
-      });
+      let errorAssignState = Object.assign({}, state);
+      errorAssignState.length -= 1;
+
+      if (errorAssignState.length === 0) {
+        errorAssignState.state = types.IDLE;
+      }
+      else {
+        // Still in fetching state
+        errorAssignState.state = types.FETCHING;
+      }
+
+      return Object.assign({}, errorAssignState);
       break;
 
     default:
